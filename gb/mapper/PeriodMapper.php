@@ -62,6 +62,7 @@ class PeriodMapper extends Mapper {
         return $this->selectAllStmt;
     }
     
+	//return an array of active writers within the given time period including the number of books written
 	function getActiveWriters ($start_period, $end_period) {
         $con = $this->getConnectionManager();
         $selectStmt = "	SELECT		p.*, w.*, b.first_publication_date, COUNT(w.book_uri) AS 'number_of_books'

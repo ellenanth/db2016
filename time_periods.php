@@ -10,7 +10,7 @@ $title = "Time period information";
 require("template/top.tpl.php");
 require_once("gb/controller/TimePeriodsController.php");
 
-
+// start the process determined in TimePeriodsController
 $timePeriodsController = new gb\controller\TimePeriodsController();
 $timePeriodsController->process();
 
@@ -43,6 +43,7 @@ $timePeriodsController->process();
 	//load the result of the query to a variable
     $active_writers = $timePeriodsController->getActiveWriters();
 	
+	//print a message when no writers are found
 	if (count($active_writers) == 0) {
 			print "0 writers found";
 		}
@@ -64,8 +65,7 @@ $timePeriodsController->process();
         <td>Description</td>
     </tr>    
 <?php
-		//for each writer print it's name, number of books written in this period and description
-		//TODO select only the first 15 tuples
+		//for the (max) 15 writers print name, number of books written in this period and description
         foreach($active_writers as $writer) {
  ?>
        <tr>
