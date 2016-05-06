@@ -32,12 +32,10 @@ class SpouseMapper extends Mapper {
 
             $obj->setUri($array['uri']);
             $obj->setFullName($array["full_name"]);
-            // $obj->setFullNameSpouse($array['full_name_spouse']); 
-			// $obj->setSpouseFromDate($array['from_date']);
-			// $obj->setSpouseToDate($array['to_date']);
-			$obj->setFullNameSpouse(NULL); 
-			$obj->setSpouseFromDate(NULL);
-			$obj->setSpouseToDate(NULL);
+            $obj->setFullNameSpouse($array['full_name_spouse']); 
+			$obj->setSpouseFromDate($array['from_date']);
+			$obj->setSpouseToDate($array['to_date']);
+
         } 
         
         return $obj;
@@ -67,7 +65,9 @@ class SpouseMapper extends Mapper {
 		$con = $this->getConnectionManager();
 		
 		//TODO select statement for Writers whose spouses are writers (select writer.uri, writer.name, spouse.name, from_time, to_time) met hernoemingen;        
-        $selectStmt = "SELECT a.*, b.* from person a, writer b where a.uri = b.writer_uri";
+        $selectStmt = "SELECT a.*, b.*, c.full_name as 'full_name_spouse', e.from_time as 'from_date', e.to_time as 'to_date' 
+		from person a, writer b, person c, writer d, is_spouse_of e where a.uri = b.writer_uri and c.uri = d.writer_uri
+		and e.writer_uri = b.writer_uri and e.person_uri = c.uri";
 			 
         $spouses = $con->executeSelectStatement($selectStmt, array()); 
         #print $selectStmt;
