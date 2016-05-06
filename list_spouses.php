@@ -41,9 +41,9 @@ $listSpousesController->process();
  ?>
        <tr>
        		<td><?php echo $writer->getFullName(); ?></td>
-                <td><?php echo $writer->getFullNameSpouse(); ?></td>
-                <td><?php echo $writer->getSpouseFromDate(); ?></td>
-                <td><?php echo $writer->getSpouseToDate(); ?></td>	
+            <td><?php echo $writer->getFullNameSpouse(); ?></td>
+            <td><?php echo $writer->getSpouseFromDate(); ?></td>
+            <td><?php echo $writer->getSpouseToDate(); ?></td>	
 	</tr>     
 <?php        
         }
