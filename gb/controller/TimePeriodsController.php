@@ -19,9 +19,15 @@ class TimePeriodsController extends PageController {
 			
 			//2 dates given
 			if ((strlen($_POST["start_period"]) > 0) &&
-                (strlen($_POST["end_period"]) > 0)) {   
-				// search active writers                
+                (strlen($_POST["end_period"]) > 0)) { 
+				
+				if ($_POST["start_period"] > $_POST["end_period"]) {
+					print "ERROR: the end date must be after the start date";
+				}
+				else {
+				// search active writers 
 				$this->active_writers = $this->searchActiveWriters($_POST["start_period"], $_POST["end_period"]);
+				}
 			}
 			
 			//only an end date given

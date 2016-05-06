@@ -42,10 +42,16 @@ $timePeriodsController->process();
 <?php
 	//load the result of the query to a variable
     $active_writers = $timePeriodsController->getActiveWriters();
+	
+	if (count($active_writers) == 0) {
+			print "0 writers found";
+		}
+		
 	//print the results if there are any
     if (count($active_writers) > 0) {
 		//keep only the first 15 writers
 		$active_writers = array_slice($active_writers, 0, 15, true);
+		
 ?>
 
 <?php //table with 15 most active writers ?>
