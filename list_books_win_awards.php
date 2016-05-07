@@ -33,7 +33,7 @@ $allCountries = $countryMapper->findAll();
         <tr>
             <td>Genre</td>            
             <td colspan="3" style="width: 85%">
-                <select style="width: 50%" name="country">
+                <select style="width: 50%" name="genre">
                     <option value="">--------Book genres ---------- </option>  
 					<?php
 					//load all genres in a combo box (showing the genre name and selecting the uri of the genre)
@@ -48,7 +48,7 @@ $allCountries = $countryMapper->findAll();
         <tr>
             <td>Writer country</td>            
             <td colspan="3" style="width: 85%">
-                <select style="width: 50%" name="country">
+                <select style="width: 50%" name="country_writer">
                     <option value="">--------Country ---------- </option>       
 						<?php
 						//load all countries in a combo box (showing the country name and selecting the iso-code of the country)
