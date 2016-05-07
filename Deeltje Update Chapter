@@ -1,0 +1,13 @@
+    function insertChapter($bookUri, $chapterNumber, $text){
+        $con = $this->getConnectionManager();
+        $insertStmt = "INSERT INTO chapter (book_uri, chapter_number, text) VALUES (" ."\"" .$bookUri ."\", ". $chapterNumber .", \""  .$text."\" )";
+        return $con->executeInsertStatement($insertStmt, array());
+    }
+    function updateChapter($bookUri, $chapterNumber, $text){
+        $con = $this->getConnectionManager();
+        $updateStmt = "UPDATE chapter SET text =  \""  .$text."\" WHERE book_uri = \"" .$bookUri ."\" and chapter_number = \"" .$chapterNumber ."\"";
+        return $con->executeUpdateStatement($updateStmt, array());
+    }
+    
+    
+    Dit is dus wat ik had gevonden in een ander project.
