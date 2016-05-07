@@ -65,10 +65,10 @@ class BooksWithAwardsMapper extends Mapper {
 		$con = $this->getConnectionManager();
         $selectStmt = "SELECT b.*, COUNT(b.uri) AS 'number_of_books_that_has_award'
 						FROM has_genre g, book b, wins_award a, writes w, has_citizenship h
-						WHERE 	g.uri = h.book_uri 
+						WHERE 		b.uri = g.book_uri
 								and b.uri = w.book_uri
 								and w.writer_uri = h.person_uri
-								and a.books_uri = b.uri
+								and a.book_uri = b.uri
 								and b.first_publication_date > " ."\"" ."%". $from_time . "%" . "\""
 								."and b.first_publication_date < " ."\"" . $to_time . "%"."\""
 								."and h.country_iso_code like " ."\"" . $country_writer . "%"."\""
