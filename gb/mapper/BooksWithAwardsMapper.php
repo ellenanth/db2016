@@ -63,7 +63,7 @@ class BooksWithAwardsMapper extends Mapper {
 	
 	function getBooksByGenreAndCountryWithAward($genre, $country_writer, $from_time, $to_time) {
 		$con = $this->getConnectionManager();
-        $selectStmt = "SELECT book.*, COUNT(book.uri) AS 'number_of_books_that_has_award'
+        $selectStmt = "SELECT b.*, COUNT(b.uri) AS 'number_of_books_that_has_award'
 						FROM has_genre g, book b, wins_award a, writes w, has_citizenship h
 						WHERE 	g.uri = h.book_uri 
 								and b.uri = w.book_uri

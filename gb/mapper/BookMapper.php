@@ -36,7 +36,7 @@ class BookMapper extends Mapper {
 			$obj->setOriginalLanguage($array['original_language']);
 			$obj->setFirstPublicationDate($array['first_publication_date']);
 			$obj->setNumberOfAwards($array['number_of_awards']);
-			$obj->setNumberOfChapters($array['number_of_chapters']);
+			// $obj->setNumberOfChapters($array['number_of_chapters']);
         } 
         
         return $obj;
