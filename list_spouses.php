@@ -11,6 +11,7 @@ require("template/top.tpl.php");
 require_once("gb/controller/ListSpousesController.php");
 require_once("gb/domain/Writer.php");
 
+// execute process of the controller
 $listSpousesController = new gb\controller\listSpousesController();
 $listSpousesController->process();
 
