@@ -63,7 +63,7 @@ class BooksWithAwardsMapper extends Mapper {
 	
 	function getBooksByGenreAndCountryWithAward($genre, $country_writer, $from_time, $to_time) {
 		$con = $this->getConnectionManager();
-        $selectStmt = "SELECT b.*
+        $selectStmt = "SELECT DISTINCT b.*
 						FROM has_genre g, book b, wins_award a, writes w, has_citizenship h
 						WHERE 		b.uri = g.book_uri
 								and b.uri = w.book_uri
