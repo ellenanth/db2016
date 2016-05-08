@@ -63,16 +63,16 @@ class BooksWithAwardsMapper extends Mapper {
 	
 	function getBooksByGenreAndCountryWithAward($genre, $country_writer, $from_time, $to_time) {
 		$con = $this->getConnectionManager();
-        $selectStmt = "SELECT b.*, COUNT(b.uri) AS 'number_of_books_that_has_award'
+        $selectStmt = "SELECT b.*
 						FROM has_genre g, book b, wins_award a, writes w, has_citizenship h
 						WHERE 		b.uri = g.book_uri
 								and b.uri = w.book_uri
 								and w.writer_uri = h.person_uri
 								and a.book_uri = b.uri
-								and b.first_publication_date > " ."\"" ."%". $from_time . "%" . "\""
-								."and b.first_publication_date < " ."\"" . $to_time . "%"."\""
-								."and h.country_iso_code like " ."\"" . $country_writer . "%"."\""
-								."and g.genre_uri like " ."\"" . $genre ."\"";    
+								and b.first_publication_date > " ."\"" . $from_time  . "\""."
+								and b.first_publication_date < " ."\"" . $to_time ."\""."
+								and h.country_iso_code like " ."\"" . $country_writer ."\""."   
+								and g.genre_uri like " ."\"" . $genre . "\"";    
         $books = $con->executeSelectStatement($selectStmt, array()); 
 		#print $selectStmt;
         return $this->getCollection($books);
