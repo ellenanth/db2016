@@ -21,11 +21,42 @@ class WinAwardController extends PageController {
                     (strlen($_POST["from_time"]) > 0)&&
                     (strlen($_POST["to_time"]) > 0))
 	   { 
-		// search books by genre, country, time
+		// search books by genre, country, start and end date
 		$this->books = $this-> getBooksByGenreAndCountryWithAward($_POST["genre"],
                                             $_POST["country_writer"], $_POST["from_time"], $_POST["to_time"]);
                 
         }
+	else if ((strlen($_POST["genre"]) > 0) &&
+                    (strlen($_POST["country_writer"]) > 0) &&
+                    (strlen($_POST["from_time"]) == 0)&&
+                    (strlen($_POST["to_time"]) > 0))
+	   { 
+		// search books by genre, country, end date
+		$this->books = $this-> getBooksByGenreAndCountryWithAward($_POST["genre"],
+                                            $_POST["country_writer"], 0000-00-00, $_POST["to_time"]);
+                
+        }
+	else if ((strlen($_POST["genre"]) > 0) &&
+                    (strlen($_POST["country_writer"]) > 0) &&
+                    (strlen($_POST["from_time"]) > 0)&&
+                    (strlen($_POST["to_time"]) == 0))
+	   { 
+		// search books by genre, country, start date
+		$this->books = $this-> getBooksByGenreAndCountryWithAward($_POST["genre"],
+                                            $_POST["country_writer"], $_POST["from_time"], date('Y-m-d'));
+                
+        }
+	else if ((strlen($_POST["genre"]) > 0) &&
+                    (strlen($_POST["country_writer"]) > 0) &&
+                    (strlen($_POST["from_time"]) == 0)&&
+                    (strlen($_POST["to_time"]) == 0))
+	   { 
+		// search books by genre, country
+		$this->books = $this-> getBooksByGenreAndCountryWithAward($_POST["genre"],
+                                            $_POST["country_writer"], 0000-00-00, date('Y-m-d'));
+                
+        }
+	else{ print 'Please choose at least a genre and a country';}
     }
 	
 	}
