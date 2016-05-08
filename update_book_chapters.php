@@ -9,6 +9,7 @@
 <?php
 	
 require_once("gb/controller/ChapterController.php");
+require_once("gb/controller/BookController.php");
 $chapterController = new gb\controller\ChapterController();
 $chapterController->process();
 
@@ -57,7 +58,39 @@ require("template/top.tpl.php");
 </table>
 </form>
 
+<?php
+	//load the result of the query to the variable $books
+    $books = $bookController->getSearchResult();
+	//print the number of results
+    print count($books) . " books found";
+	//print the results if there are any
+    if (count($books) > 0) 
+	{
+?>
 
+<table style="width: 100%">
+    <tr>
+		<?php //create headings for the results ?>
+        <td>Book name</td>        
+        <td>Number of chapters</td>
+        <td>Add chapter</td>
+    </tr> 
+<?php
+		//for each book print it's name and number of chapters
+        foreach($books as $book) {
+ ?>
+       <tr>
+		<td><?php echo $book->getName(); ?></td>
+                <td><?php echo $book->getNbChapters(); ?></td>
+		
+	</tr>     
+<?php        
+        }
+?>	
+</table>
+<?php
+    }
+?>
 
 <?php
 	require("template/bottom.tpl.php");
