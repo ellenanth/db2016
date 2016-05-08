@@ -9,7 +9,6 @@ $title = "Update chapters of books";
 
 require("template/top.tpl.php");
 require_once("gb/controller/ChapterController.php");
-require_once("gb/domain/Book.php");
 require_once("gb/mapper/GenreMapper.php");
 
 $chapterController = new gb\controller\ChapterController();
@@ -73,13 +72,28 @@ $allGenres = $genreMapper->findAll();
 <?php
 		//for each book print it's name, number of chapters (with hyperlink to update book chapters) and the string 'Add chapter' (with hyperlink to add book chapter)
         foreach($books as $book) {
+			if ($book->getNbChapters()>0) {
  ?>
        <tr>
-        <td><a href="update_book_chapters.php?book_uri=http://dbpedia.org/resource/<?php echo $book->getName() ?>">
+        <td><a href="update_book_chapters.php?book_uri=<?php print $book->getUri() ?>">
 					<?php echo $book->getName() ?></a></td>
-        <td><a href="update_book_chapters.php?book_uri=http://dbpedia.org/resource/<?php echo $book->getName() ?>">
+        <td><a href="update_book_chapters.php?book_uri=<?php print $book->getUri() ?>">
 					<?php echo $book->getNbChapters() ?></a></td>
-        <td><a href="add_book_chapters.php?book_uri=http://dbpedia.org/resource/<?php echo $book->getName() ?>">
+					
+<?php
+			}
+			else {
+?>
+			<tr>
+			<td><?php echo $book->getName(); ?></td>
+                <td><?php echo $book->getNbChapters(); ?></td>
+		 
+<?php
+			}
+?>
+					
+					
+        <td><a href="add_book_chapters.php?book_uri=<?php echo $book->getUri() ?>">
 					Add chapter</a></td>
 		
 	</tr>     

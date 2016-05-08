@@ -1,6 +1,6 @@
 <?php
 /*
- * file to control what happens on page 'update chapters'
+ * file to control what happens on page 'update chapters' and the pages linked by hyperlinks from this page
  */
  ?>
 <?php
@@ -8,6 +8,7 @@ namespace gb\controller;
 
 require_once("gb/controller/PageController.php");
 require_once("gb/mapper/ChapterMapper.php");
+require_once("gb/mapper/BookMapper.php");
 
 
 class ChapterController extends PageController {
@@ -41,13 +42,13 @@ class ChapterController extends PageController {
     }
 	
 	function searchBooksByGenre($genre) {
-		$mapper = new \gb\mapper\ChapterMapper(null);
-        return $mapper->getBooksByGenre($genre);
+		$mapper = new \gb\mapper\BookMapper;
+        return $mapper->getBooksByGenreIncludingChapters($genre);
 	}
 	
 	function listAllBooks() {
-        $mapper = new \gb\mapper\ChapterMapper(null);
-        return $mapper->getAllBooks();
+        $mapper = new \gb\mapper\BookMapper();
+        return $mapper->getAllBooksIncludingChapters();
     }
     
     function updateBookChapter() {

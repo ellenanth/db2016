@@ -8,11 +8,11 @@
  ?>
 <?php
 
-require_once("gb/controller/BookController.php");
-$bookController = new gb\controller\BookController();
-$bookController->process();
+require_once("gb/controller/ChapterController.php");
+$chapterController = new gb\controller\ChapterController();
+$chapterController->process();
 
-$title = "book_uri =" . $bookController->getSelectedBookUri();
+$title = "book_uri =" . $chapterController->getSelectedBookUri();
 require("template/top.tpl.php");
 ?>    
 <form method="post">

@@ -4,11 +4,10 @@ namespace gb\mapper;
 $EG_DISABLE_INCLUDES=true;
 require_once( "gb/mapper/Mapper.php" );
 require_once( "gb/domain/Chapter.php" );
+require_once( "gb/domain/Book.php");
 
 
-class ChapterMapper($book_uri) extends Mapper {
-	
-	$selected_book = $book_uri;
+class ChapterMapper extends Mapper {
 
     function __construct() {
         parent::__construct();
@@ -30,11 +29,11 @@ class ChapterMapper($book_uri) extends Mapper {
         
         $obj = null;        
         if (count($array) > 0) {
-            $obj = new \gb\domain\Book( $array['uri'] );
+            $obj = new \gb\domain\Chapter( $array['chapter_number'] );
 
-            $obj->setUri($array['uri']);
-			$obj->setName($array['name']);
-            $obj->setNumberOfChapters($array["number_of_chapters"]);
+            $obj->setBookUri($array['book_uri']);
+			$obj->setChapterNumber($array['chapter_number']);
+            $obj->setText($array["text"]);
         }
         
         return $obj;
@@ -60,32 +59,16 @@ class ChapterMapper($book_uri) extends Mapper {
         return $this->selectAllStmt;
     }
 	
-	
-	// returns book.* and number of chapters of a collection of books with the selected genre
-	function getBooksByGenre($genre) {
+	// returns a collection of all the chapters from the given book
+	// TODO momenteel wordt nog een lege lijst teruggegeven
+	function getAllChaptersOfBook($given_book_uri) {
 		$con = $this->getConnectionManager();
-        $selectStmt = "SELECT book.*, COUNT(chapter_number) AS 'number_of_chapters'
-						from has_genre, book LEFT JOIN chapter ON book.uri = chapter.book_uri
-						
-						where book.uri = has_genre.book_uri 
-						and has_genre.genre_uri like " ."\"" . $genre . "\"".
-						
-						"group by chapter.book_uri";
-        $books = $con->executeSelectStatement($selectStmt, array()); 
-		#print $selectStmt;
-        return $this->getCollection($books);
+        $selectStmt = "	SELECT	*
+						FROM	chapter
+						WHERE	book_uri like " ."\"" . $given_book_uri ."\"";
+        $chapters = $con->executeSelectStatement($selectStmt, array()); 
+        return $this->getCollection($chapters);
 	}
-	
-	// returns book.* and number of chapters of the collection of all books
-	function getAllBooks () {
-        $con = $this->getConnectionManager();
-        $selectStmt = "SELECT book.*, COUNT(chapter_number) AS 'number_of_chapters'
-						from book LEFT JOIN chapter ON book.uri = chapter.book_uri
-						group by chapter.book_uri";
-        $books = $con->executeSelectStatement($selectStmt, array()); 
-        #print $selectStmt;
-        return $this->getCollection($books);
-    }
     
 }
 

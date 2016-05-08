@@ -36,7 +36,7 @@ class BookMapper extends Mapper {
 			$obj->setOriginalLanguage($array['original_language']);
 			$obj->setFirstPublicationDate($array['first_publication_date']);
 			$obj->setNumberOfAwards($array['number_of_awards']);
-			// $obj->setNumberOfChapters($array['number_of_chapters']);
+			$obj->setNumberOfChapters($array['number_of_chapters']);
         } 
         
         return $obj;
@@ -64,7 +64,7 @@ class BookMapper extends Mapper {
     
 	function getBooksByGenre($genre) {
 		$con = $this->getConnectionManager();
-        $selectStmt = "SELECT book.*, COUNT(award_uri) AS 'number_of_awards'
+        $selectStmt = "SELECT book.*, COUNT(award_uri) AS 'number_of_awards', null AS 'number_of_chapters'
 						from has_genre, book LEFT JOIN wins_award ON book.uri = wins_award.book_uri
 						
 						where book.uri = has_genre.book_uri 
@@ -78,11 +78,37 @@ class BookMapper extends Mapper {
 	
 	function getAllBooks () {
         $con = $this->getConnectionManager();
-        $selectStmt = "SELECT book.*, COUNT(award_uri) AS 'number_of_awards'
+        $selectStmt = "SELECT book.*, COUNT(award_uri) AS 'number_of_awards', null AS 'number_of_chapters'
 						from has_genre, book LEFT JOIN wins_award ON book.uri = wins_award.book_uri
 						
 						where book.uri = has_genre.book_uri 
 						group by wins_award.book_uri";
+        $books = $con->executeSelectStatement($selectStmt, array()); 
+        #print $selectStmt;
+        return $this->getCollection($books);
+    }
+	
+	// returns book.* and number of chapters of a collection of books with the selected genre
+	function getBooksByGenreIncludingChapters($genre) {
+		$con = $this->getConnectionManager();
+        $selectStmt = "SELECT book.*, COUNT(chapter_number) AS 'number_of_chapters', null AS 'number_of_awards'
+						from has_genre, book LEFT JOIN chapter ON book.uri = chapter.book_uri
+						
+						where book.uri = has_genre.book_uri 
+						and has_genre.genre_uri like " ."\"" . $genre . "\"".
+						
+						"group by chapter.book_uri";
+        $books = $con->executeSelectStatement($selectStmt, array()); 
+		#print $selectStmt;
+        return $this->getCollection($books);
+	}
+	
+	// returns book.* and number of chapters of the collection of all books
+	function getAllBooksIncludingChapters () {
+        $con = $this->getConnectionManager();
+        $selectStmt = "SELECT book.*, COUNT(chapter_number) AS 'number_of_chapters', null AS 'number_of_awards'
+						from book LEFT JOIN chapter ON book.uri = chapter.book_uri
+						group by chapter.book_uri";
         $books = $con->executeSelectStatement($selectStmt, array()); 
         #print $selectStmt;
         return $this->getCollection($books);
